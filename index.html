@@ -823,7 +823,8 @@ const FORM_TXT = {
       idioma: (document.documentElement.lang || "pt-BR"), origem: "Site Minas Tattoo", pagina: location.href.split("#")[0],
     });
     const qTexto = quando.options[quando.selectedIndex].textContent.trim();
-    const msg = `${site.mensagemWhatsApp}\n\n${t.nome}: ${n}\n${t.quando}: ${qTexto}` + (ideia ? `\n${t.ideia}: ${ideia}` : "");
+    /* no WhatsApp, texto entre asteriscos aparece em negrito */
+    const msg = `${site.mensagemWhatsApp}\n\n*${t.nome}:* ${n}\n*${t.quando}:* ${qTexto}` + (ideia ? `\n*${t.ideia}:* ${ideia}` : "");
     const url = `${site.whatsappBase}?text=${encodeURIComponent(msg)}`;
     /* leva direto para o WhatsApp (na mesma aba). Dentro de uma moldura (pré-visualização), abre em nova aba. */
     if (window.top !== window.self) { if (!window.open(url, "_blank", "noopener")) location.href = url; }
