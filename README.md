@@ -34,10 +34,10 @@ No fim do `index.html`, dentro do `<script>`, o objeto `site` guarda o conteúdo
 
 ## Formulário de orçamento
 
-Na seção de valores, o visitante preenche nome, telefone (com máscara brasileira, `(31) 99999-9999`) e quando quer tatuar (de imediato, em até 15 dias, em até 30 dias ou só pesquisando). Ao enviar:
+Na seção de valores, o visitante preenche nome, telefone (com máscara brasileira, `(31) 99999-9999`) quando quer tatuar (de imediato, em até 15 dias, em até 30 dias ou só pesquisando) e, se quiser, a ideia de tatuagem (texto livre). Ao enviar:
 
-- **Webhook** (`webhookUrl`): recebe um POST `application/x-www-form-urlencoded`, cada informação em um campo separado: `nome`, `telefone` (ex.: `(35) 99710-9309`), `telefone_whatsapp` (ex.: `+5535997109309`), `quando_tatuar`, `data` (`dd/mm/aaaa`), `hora` (`hh:mm`, horário de Brasília), `data_hora`, `idioma`, `origem` e `pagina`.
-- **WhatsApp**: abre a conversa só com a mensagem de orçamento, o nome e quando quer tatuar. O telefone vai apenas para o webhook.
+- **Webhook** (`webhookUrl`): recebe um POST `application/x-www-form-urlencoded`, cada informação em um campo separado: `nome`, `telefone` (ex.: `(35) 99710-9309`), `telefone_whatsapp` (ex.: `+5535997109309`), `quando_tatuar`, `ideia_tatuagem`, `data` (`dd/mm/aaaa`), `hora` (`hh:mm`, horário de Brasília), `data_hora`, `idioma`, `origem` e `pagina`.
+- **WhatsApp**: logo depois do envio, a pessoa é levada direto para a conversa, só com a mensagem de orçamento, o nome e quando quer tatuar. O telefone e a ideia de tatuagem vão apenas para o webhook.
 
 As opções de "quando quer tatuar" ficam no HTML (`<select id="f-quando">`); o valor enviado ao webhook é sempre em português, mesmo com o site em inglês ou espanhol.
 

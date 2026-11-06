@@ -274,11 +274,10 @@ input::placeholder, textarea::placeholder { color: #8a7f68; }
 .form-error { font-size: .875rem; color: var(--destructive); }
 #orcamento form { text-align: left; }
 #orcamento label { color: var(--hero-fg); }
-#orcamento input, #orcamento select { border-color: transparent; font-size: 1rem; }
+#orcamento input, #orcamento select, #orcamento textarea { border-color: transparent; font-size: 1rem; }
 #orcamento input[aria-invalid="true"], #orcamento select[aria-invalid="true"] { border-color: #f2a093; box-shadow: 0 0 0 1px #f2a093; }
 #orcamento .form-error { color: #f6b7ab; }
-.form-ok { font-size: .875rem; line-height: 1.6; color: var(--gold); text-align: center; }
-.form-ok a { color: var(--hero-fg); text-underline-offset: 3px; }
+
 .btn-block { width: 100%; padding-block: 1rem; white-space: normal; }
 .btn-block:hover { transform: scale(1.02); }
 .sent {
@@ -463,10 +462,13 @@ footer .small-muted { font-size: .68rem; }
               </select>
             </div>
           </div>
+          <div>
+            <label for="f-ideia" data-t="fIdeia">Qual a sua ideia de tatuagem?</label>
+            <textarea id="f-ideia" name="ideia" rows="4" maxlength="1000" placeholder="Ex.: leão realista no antebraço, com o nome do meu filho" data-ta="placeholder:fIdeiaPh"></textarea>
+          </div>
           <input class="hp" type="text" name="empresa" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p class="form-error" id="f-erro" role="alert" hidden></p>
           <button type="submit" class="btn btn-block btn-wa" id="wa-btn"><svg class="icon icon-wa"><use href="#i-wa"/></svg><span data-t="orcBotao">Quero receber meu orçamento</span></button>
-          <p class="form-ok" id="f-ok" role="status" hidden><span data-t="fOk">Pronto! Abrimos o WhatsApp com a sua mensagem.</span> <a href="#" id="f-ok-link" target="_blank" rel="noopener noreferrer" data-t="fOkLink">Se não abriu, toque aqui.</a></p>
         </form>
       </div>
     </div>
@@ -499,7 +501,7 @@ const site = {
   mensagemWhatsApp: "Olá, Minas! Vim pelo seu site e quero fazer o meu orçamento.",
   /* Link do webhook que recebe os dados do formulário (nome, telefone, quando, data e hora).
      Vazio: o formulário só abre o WhatsApp. */
-  webhookUrl: "",
+  webhookUrl: "https://hook.eu2.make.com/5u7jgae15t17x8bwc5ijhwef2l19b4vj",
   marquee: ["HIPER-REALISMO", "DETALHISMO", "PRECISÃO", "EXCLUSIVIDADE", "PROJETOS PERSONALIZADOS", "AUTENTICIDADE", "ALTO PADRÃO"],
   estilos: [
     /* trabalhos do Minas */
@@ -778,7 +780,7 @@ const FORM_TXT = {
   es: { nome: "Nombre", quando: "Cuándo quiero tatuarme", erroNome: "Escribe tu nombre.", erroTel: "Escribe un teléfono válido con código de área, por ejemplo (31) 99999-9999.", erroQuando: "Elige cuándo quieres tatuarte." },
 };
 (function () {
-  const form = $("form-orc"), nome = $("f-nome"), tel = $("f-tel"), quando = $("f-quando"), erro = $("f-erro"), ok = $("f-ok");
+  const form = $("form-orc"), nome = $("f-nome"), tel = $("f-tel"), quando = $("f-quando"), erro = $("f-erro");
   const txt = () => FORM_TXT[(document.documentElement.lang || "pt").slice(0, 2)] || FORM_TXT.pt;
   const digitos = (v) => v.replace(/\D/g, "").replace(/^55(?=\d{10,11}$)/, "").slice(0, 11);
   function mascara(d) {
@@ -808,7 +810,7 @@ const FORM_TXT = {
   }
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    erro.hidden = true; ok.hidden = true;
+    erro.hidden = true;
     const t = txt(), n = nome.value.trim().replace(/\s+/g, " "), d = digitos(tel.value), q = quando.value;
     if (form.empresa.value) return; /* robôs preenchem o campo escondido */
     if (n.length < 2) return falha(nome, t.erroNome);
@@ -816,16 +818,16 @@ const FORM_TXT = {
     if (!q) return falha(quando, t.erroQuando);
     const { data, hora } = agora();
     enviarWebhook({
-      nome: n, telefone: mascara(d), telefone_whatsapp: `+55${d}`, quando_tatuar: q,
+      nome: n, telefone: mascara(d), telefone_whatsapp: `+55${d}`, quando_tatuar: q, ideia_tatuagem: $("f-ideia").value.trim(),
       data, hora, data_hora: `${data} ${hora}`,
       idioma: (document.documentElement.lang || "pt-BR"), origem: "Site Minas Tattoo", pagina: location.href.split("#")[0],
     });
     const qTexto = quando.options[quando.selectedIndex].textContent.trim();
     const msg = `${site.mensagemWhatsApp}\n\n${t.nome}: ${n}\n${t.quando}: ${qTexto}`;
     const url = `${site.whatsappBase}?text=${encodeURIComponent(msg)}`;
-    $("f-ok-link").href = url; ok.hidden = false;
-    const aba = window.open(url, "_blank", "noopener");
-    if (!aba) location.href = url;
+    /* leva direto para o WhatsApp (na mesma aba). Dentro de uma moldura (pré-visualização), abre em nova aba. */
+    if (window.top !== window.self) { if (!window.open(url, "_blank", "noopener")) location.href = url; }
+    else location.href = url;
   });
 })();
 
@@ -852,11 +854,10 @@ const I18N = {
       orcTexto: "A session with <strong style=\"color:var(--foreground);font-weight:600\">Minas</strong> costs on average <strong style=\"color:var(--foreground);font-weight:600\">R$1,350&nbsp;to&nbsp;R$2,000</strong> (Brazilian reais).",
       orcSub: "Fill in below and talk to Minas on WhatsApp",
       fNome: "Name",
+      fIdeia: "What is your tattoo idea?",
       fTel: "Phone (WhatsApp)",
       fQuando: "When do you want to get tattooed?",
       fSelecione: "Select",
-      fOk: "Done! We opened WhatsApp with your message.",
-      fOkLink: "If it didn't open, tap here.",
       fQ1: "Right away",
       fQ2: "Within 15 days",
       fQ3: "Within 30 days",
@@ -867,7 +868,7 @@ const I18N = {
       pfMenos: "Show less",
     },
     ta: {
-      langAria: "Language", fNomePh: "Your name",
+      langAria: "Language", fNomePh: "Your name", fIdeiaPh: "E.g.: realistic lion on the forearm, with my son's name",
       heroAlt: "Anderson, realistic tattoo artist at Minas Tattoo, in a black T-shirt and gloves holding a tattoo machine, with a lion painting behind him",
       projetos: "Recent projects",
       projAnt: "Previous project",
@@ -942,11 +943,10 @@ const I18N = {
       orcTexto: "Una sesión con <strong style=\"color:var(--foreground);font-weight:600\">Minas</strong> cuesta en promedio <strong style=\"color:var(--foreground);font-weight:600\">R$1.350&nbsp;a&nbsp;R$2.000</strong> (reales brasileños).",
       orcSub: "Completa abajo y habla con Minas por WhatsApp",
       fNome: "Nombre",
+      fIdeia: "¿Cuál es tu idea de tatuaje?",
       fTel: "Teléfono (WhatsApp)",
       fQuando: "¿Cuándo quieres tatuarte?",
       fSelecione: "Selecciona",
-      fOk: "¡Listo! Abrimos WhatsApp con tu mensaje.",
-      fOkLink: "Si no se abrió, toca aquí.",
       fQ1: "De inmediato",
       fQ2: "En hasta 15 días",
       fQ3: "En hasta 30 días",
@@ -957,7 +957,7 @@ const I18N = {
       pfMenos: "Mostrar menos",
     },
     ta: {
-      langAria: "Idioma", fNomePh: "Tu nombre",
+      langAria: "Idioma", fNomePh: "Tu nombre", fIdeiaPh: "Ej.: león realista en el antebrazo, con el nombre de mi hijo",
       heroAlt: "Anderson, tatuador realista de Minas Tattoo, con camiseta negra y guantes sosteniendo la máquina de tatuar, con un cuadro de león al fondo",
       projetos: "Proyectos recientes",
       projAnt: "Proyecto anterior",
