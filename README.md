@@ -37,7 +37,7 @@ Ficam direto no HTML: textos do banner, do "Quem sou" e do valor médio e o link
 
 Os nomes das fotos descrevem a tatuagem e terminam em `-minas-tattoo`, para ajudar a busca do Google.
 
-- `assets/tatuador-anderson-minas-tattoo-banner.webp`: foto do banner
+- `assets/tatuador-minas-tattoo-banner.webp`: foto do banner
 - `assets/anderson-minas-tattoo-quem-sou.webp`: foto do "Quem sou"
 - `assets/tatuagem-*-minas-tattoo.webp`: fotos do carrossel "Projetos recentes" e do portfólio
 
