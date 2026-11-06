@@ -450,17 +450,16 @@ footer .small-muted { font-size: .68rem; }
           <div class="row2">
             <div>
               <label for="f-tel" data-t="fTel">Telefone (WhatsApp)</label>
-              <input id="f-tel" name="telefone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" required placeholder="(35) 99999-9999">
+              <input id="f-tel" name="telefone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" required placeholder="(31) 99999-9999">
             </div>
             <div>
-              <label for="f-quando" data-t="fQuando">Quando pretende tatuar?</label>
+              <label for="f-quando" data-t="fQuando">Quando você quer tatuar?</label>
               <select id="f-quando" name="quando" required>
               <option value="" disabled selected data-t="fSelecione">Selecione</option>
-              <option value="O quanto antes" data-t="fQ1">O quanto antes</option>
-              <option value="Nos próximos 30 dias" data-t="fQ2">Nos próximos 30 dias</option>
-              <option value="Em 1 a 3 meses" data-t="fQ3">Em 1 a 3 meses</option>
-              <option value="Daqui a mais de 3 meses" data-t="fQ4">Daqui a mais de 3 meses</option>
-              <option value="Ainda não sei" data-t="fQ5">Ainda não sei</option>
+              <option value="De imediato" data-t="fQ1">De imediato</option>
+              <option value="Em até 15 dias" data-t="fQ2">Em até 15 dias</option>
+              <option value="Em até 30 dias" data-t="fQ3">Em até 30 dias</option>
+              <option value="Só pesquisando" data-t="fQ4">Só pesquisando</option>
               </select>
             </div>
           </div>
@@ -772,11 +771,11 @@ renderMarquee();
 })();
 
 /* Formulário de orçamento: máscara de telefone (padrão brasileiro), envio completo para o webhook
-   e WhatsApp só com a mensagem, o nome e quando pretende tatuar. */
+   e WhatsApp só com a mensagem, o nome e quando quer tatuar. */
 const FORM_TXT = {
-  pt: { nome: "Nome", quando: "Quando pretendo tatuar", erroNome: "Informe o seu nome.", erroTel: "Informe um telefone válido com DDD, por exemplo (35) 99999-9999.", erroQuando: "Escolha quando pretende tatuar." },
-  en: { nome: "Name", quando: "When I plan to get tattooed", erroNome: "Please enter your name.", erroTel: "Please enter a valid Brazilian phone number with area code, e.g. (35) 99999-9999.", erroQuando: "Please choose when you plan to get tattooed." },
-  es: { nome: "Nombre", quando: "Cuándo pienso tatuarme", erroNome: "Escribe tu nombre.", erroTel: "Escribe un teléfono válido con código de área, por ejemplo (35) 99999-9999.", erroQuando: "Elige cuándo piensas tatuarte." },
+  pt: { nome: "Nome", quando: "Quando quero tatuar", erroNome: "Informe o seu nome.", erroTel: "Informe um telefone válido com DDD, por exemplo (31) 99999-9999.", erroQuando: "Escolha quando você quer tatuar." },
+  en: { nome: "Name", quando: "When I want to get tattooed", erroNome: "Please enter your name.", erroTel: "Please enter a valid Brazilian phone number with area code, e.g. (31) 99999-9999.", erroQuando: "Please choose when you want to get tattooed." },
+  es: { nome: "Nombre", quando: "Cuándo quiero tatuarme", erroNome: "Escribe tu nombre.", erroTel: "Escribe un teléfono válido con código de área, por ejemplo (31) 99999-9999.", erroQuando: "Elige cuándo quieres tatuarte." },
 };
 (function () {
   const form = $("form-orc"), nome = $("f-nome"), tel = $("f-tel"), quando = $("f-quando"), erro = $("f-erro"), ok = $("f-ok");
@@ -854,15 +853,14 @@ const I18N = {
       orcSub: "Fill in below and talk to Minas on WhatsApp",
       fNome: "Name",
       fTel: "Phone (WhatsApp)",
-      fQuando: "When do you plan to get tattooed?",
+      fQuando: "When do you want to get tattooed?",
       fSelecione: "Select",
       fOk: "Done! We opened WhatsApp with your message.",
       fOkLink: "If it didn't open, tap here.",
-      fQ1: "As soon as possible",
-      fQ2: "In the next 30 days",
-      fQ3: "In 1 to 3 months",
-      fQ4: "In more than 3 months",
-      fQ5: "I'm not sure yet",
+      fQ1: "Right away",
+      fQ2: "Within 15 days",
+      fQ3: "Within 30 days",
+      fQ4: "Just researching",
       orcBotao: "Get my quote",
       direitos: "All rights reserved.",
       pfMais: "See full portfolio",
@@ -945,15 +943,14 @@ const I18N = {
       orcSub: "Completa abajo y habla con Minas por WhatsApp",
       fNome: "Nombre",
       fTel: "Teléfono (WhatsApp)",
-      fQuando: "¿Cuándo piensas tatuarte?",
+      fQuando: "¿Cuándo quieres tatuarte?",
       fSelecione: "Selecciona",
       fOk: "¡Listo! Abrimos WhatsApp con tu mensaje.",
       fOkLink: "Si no se abrió, toca aquí.",
-      fQ1: "Lo antes posible",
-      fQ2: "En los próximos 30 días",
-      fQ3: "En 1 a 3 meses",
-      fQ4: "En más de 3 meses",
-      fQ5: "Todavía no lo sé",
+      fQ1: "De inmediato",
+      fQ2: "En hasta 15 días",
+      fQ3: "En hasta 30 días",
+      fQ4: "Solo estoy investigando",
       orcBotao: "Quiero recibir mi presupuesto",
       direitos: "Todos los derechos reservados.",
       pfMais: "Ver portafolio completo",
