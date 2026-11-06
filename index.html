@@ -500,7 +500,7 @@ const site = {
     { src: "assets/tatuagem-ceifador-caveira-lua-antebraco-minas-tattoo.webp", alt: "Tatuagem de ceifador com caveira encapuzada e lua no antebraço feita por Anderson, do Minas Tattoo" },
     { src: "assets/tatuagem-serpente-folhas-antebraco-minas-tattoo.webp", alt: "Tatuagem realista de serpente entre folhas no antebraço feita por Anderson, do Minas Tattoo" },
     { src: "assets/tatuagem-retrato-feiticeira-antebraco-minas-tattoo.webp", alt: "Tatuagem realista de retrato feminino de feiticeira com tiara e magia nas mãos feita por Anderson, do Minas Tattoo" },
-    { src: "assets/tatuagem-guerreiro-espartano-braco-minas-tattoo.webp", alt: "Tatuagem de guerreiro espartano com escudo e espada no braço feita por Anderson, do Minas Tattoo" },
+    { src: "assets/tatuagem-guerreiro-espartano-escudo-espada-braco-minas-tattoo.webp", alt: "Tatuagem de guerreiro espartano com escudo e espada no braço feita por Anderson, do Minas Tattoo" },
     { src: "assets/tatuagem-mario-sonic-games-braco-minas-tattoo.webp", alt: "Tatuagem realista de Mario e Sonic, personagens de videogame, no braço feita por Anderson, do Minas Tattoo" },
   ],
   /* Avaliações do Google do Minas: { nome: "", tempo: "", texto: "" }, da mais recente para a mais antiga.
@@ -604,7 +604,7 @@ renderMarquee();
 /* Portfólio + lightbox */
 (function () {
   const grid = $("portfolio-grid");
-  const PF_VISIVEIS = 12; /* quantas fotos aparecem antes do botão */
+  const PF_VISIVEIS = Infinity; /* todas as fotos aparecem; para voltar o botão "Ver portfólio completo", troque por um número (ex.: 12) */
   grid.innerHTML = site.portfolio.map((f, i) => `<button type="button" class="pf-item${i >= PF_VISIVEIS ? " pf-extra" : ""}" data-i="${i}" aria-label="Ampliar: ${esc(f.alt)}">${media(f.src, f.alt, f.motivo, true, "(min-width: 768px) 23rem, calc(50vw - 30px)")}</button>`).join("");
   const lb = $("lightbox");
   let cur = null, opener = null;
