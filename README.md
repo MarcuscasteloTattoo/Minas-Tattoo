@@ -29,7 +29,17 @@ No fim do `index.html`, dentro do `<script>`, o objeto `site` guarda o conteúdo
 - `estilos`: os cards do carrossel "Projetos recentes" (título, texto, foto e descrição da foto).
 - `portfolio`: as fotos do portfólio, na ordem em que aparecem. Todas aparecem de uma vez. Para mostrar só as primeiras e esconder o resto no botão "Ver portfólio completo", troque `PF_VISIVEIS` no `<script>` por um número (ex.: 12). Para acrescentar, coloque a foto em `assets/` e adicione `{ src: "assets/nome.webp", alt: "descrição" }`.
 - `avaliacoes`: avaliações do Google (nome, tempo, avatar, texto), mostradas em carrossel abaixo da nota (5,0, 41 avaliações). O `avatar` é a foto do cliente (quadrada, em `assets/`); sem ela aparecem as iniciais do nome. Cada avaliação precisa da tradução em `I18N.en.avaliacoes` e `I18N.es.avaliacoes`. Sem nenhuma avaliação, a seção mostra só a nota e o link para o Google; as que têm `foto` aparecem primeiro e abrem ampliadas ao toque. A nota e o total ficam no HTML e nas traduções (`avNota`, `avTotal`).
-- `whatsappBase` e `mensagemWhatsApp`: número e mensagem inicial do botão de orçamento pelo WhatsApp.
+- `whatsappBase` e `mensagemWhatsApp`: número do WhatsApp e mensagem inicial do formulário de orçamento.
+- `webhookUrl`: link do webhook que recebe os pedidos de orçamento. Enquanto estiver vazio, o formulário só abre o WhatsApp.
+
+## Formulário de orçamento
+
+Na seção de valores, o visitante preenche nome, telefone (com máscara brasileira, `(35) 99999-9999`) e quando pretende tatuar. Ao enviar:
+
+- **Webhook** (`webhookUrl`): recebe um POST `application/x-www-form-urlencoded`, cada informação em um campo separado: `nome`, `telefone` (ex.: `(35) 99710-9309`), `telefone_whatsapp` (ex.: `+5535997109309`), `quando_tatuar`, `data` (`dd/mm/aaaa`), `hora` (`hh:mm`, horário de Brasília), `data_hora`, `idioma`, `origem` e `pagina`.
+- **WhatsApp**: abre a conversa só com a mensagem de orçamento, o nome e quando pretende tatuar. O telefone vai apenas para o webhook.
+
+As opções de "quando pretende tatuar" ficam no HTML (`<select id="f-quando">`); o valor enviado ao webhook é sempre em português, mesmo com o site em inglês ou espanhol.
 
 Ficam direto no HTML: textos do banner, do "Quem sou" e do valor médio e o link do Instagram.
 

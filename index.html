@@ -272,6 +272,13 @@ select {
 input::placeholder, textarea::placeholder { color: #8a7f68; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .form-error { font-size: .875rem; color: var(--destructive); }
+#orcamento form { text-align: left; }
+#orcamento label { color: var(--hero-fg); }
+#orcamento input, #orcamento select { border-color: transparent; font-size: 1rem; }
+#orcamento input[aria-invalid="true"], #orcamento select[aria-invalid="true"] { border-color: #f2a093; box-shadow: 0 0 0 1px #f2a093; }
+#orcamento .form-error { color: #f6b7ab; }
+.form-ok { font-size: .875rem; line-height: 1.6; color: var(--gold); text-align: center; }
+.form-ok a { color: var(--hero-fg); text-underline-offset: 3px; }
 .btn-block { width: 100%; padding-block: 1rem; white-space: normal; }
 .btn-block:hover { transform: scale(1.02); }
 .sent {
@@ -434,8 +441,34 @@ footer .small-muted { font-size: .68rem; }
       <div class="form-wrap">
         <h2 class="h2" data-t="orcTitulo">Qual o valor de uma tatuagem com o Minas?</h2>
         <p class="lead" style="max-width:30rem" data-t="orcTexto">Uma sessão com o <strong style="color:var(--foreground);font-weight:600">Minas</strong> custa em média de <strong style="color:var(--foreground);font-weight:600">R$1.350&nbsp;a&nbsp;R$2.000</strong>.</p>
-        <p class="lead" style="max-width:none;margin-top:.75rem" data-t="orcSub">Solicite seu orçamento pelo botão abaixo</p>
-        <div style="margin-top:2rem"><a class="btn btn-block btn-wa" id="wa-btn" href="https://wa.me/5535997109309" target="_blank" rel="noopener noreferrer"><svg class="icon icon-wa"><use href="#i-wa"/></svg><span data-t="orcBotao">Quero receber meu orçamento</span></a></div>
+        <p class="lead" style="max-width:none;margin-top:.75rem" data-t="orcSub">Preencha abaixo e fale com o Minas pelo WhatsApp</p>
+        <form id="form-orc" novalidate>
+          <div>
+            <label for="f-nome" data-t="fNome">Nome</label>
+            <input id="f-nome" name="nome" type="text" autocomplete="name" maxlength="80" required placeholder="Seu nome" data-ta="placeholder:fNomePh">
+          </div>
+          <div class="row2">
+            <div>
+              <label for="f-tel" data-t="fTel">Telefone (WhatsApp)</label>
+              <input id="f-tel" name="telefone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" required placeholder="(35) 99999-9999">
+            </div>
+            <div>
+              <label for="f-quando" data-t="fQuando">Quando pretende tatuar?</label>
+              <select id="f-quando" name="quando" required>
+              <option value="" disabled selected data-t="fSelecione">Selecione</option>
+              <option value="O quanto antes" data-t="fQ1">O quanto antes</option>
+              <option value="Nos próximos 30 dias" data-t="fQ2">Nos próximos 30 dias</option>
+              <option value="Em 1 a 3 meses" data-t="fQ3">Em 1 a 3 meses</option>
+              <option value="Daqui a mais de 3 meses" data-t="fQ4">Daqui a mais de 3 meses</option>
+              <option value="Ainda não sei" data-t="fQ5">Ainda não sei</option>
+              </select>
+            </div>
+          </div>
+          <input class="hp" type="text" name="empresa" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="form-error" id="f-erro" role="alert" hidden></p>
+          <button type="submit" class="btn btn-block btn-wa" id="wa-btn"><svg class="icon icon-wa"><use href="#i-wa"/></svg><span data-t="orcBotao">Quero receber meu orçamento</span></button>
+          <p class="form-ok" id="f-ok" role="status" hidden><span data-t="fOk">Pronto! Abrimos o WhatsApp com a sua mensagem.</span> <a href="#" id="f-ok-link" target="_blank" rel="noopener noreferrer" data-t="fOkLink">Se não abriu, toque aqui.</a></p>
+        </form>
       </div>
     </div>
   </section>
@@ -464,7 +497,10 @@ footer .small-muted { font-size: .68rem; }
    Fotos ficam em assets/; veja o README para trocar ou acrescentar. */
 const site = {
   whatsappBase: "https://wa.me/5535997109309",
-  mensagemWhatsApp: "Olá, Minas! Vim pelo seu site e quero fazer a minha tatuagem.",
+  mensagemWhatsApp: "Olá, Minas! Vim pelo seu site e quero fazer o meu orçamento.",
+  /* Link do webhook que recebe os dados do formulário (nome, telefone, quando, data e hora).
+     Vazio: o formulário só abre o WhatsApp. */
+  webhookUrl: "",
   marquee: ["HIPER-REALISMO", "DETALHISMO", "PRECISÃO", "EXCLUSIVIDADE", "PROJETOS PERSONALIZADOS", "AUTENTICIDADE", "ALTO PADRÃO"],
   estilos: [
     /* trabalhos do Minas */
@@ -735,16 +771,71 @@ renderMarquee();
   if (!reduced) setInterval(() => { if (!paused && !document.hidden && $("lightbox").hidden) scroll(1); }, 4000);
 })();
 
-/* Botões do WhatsApp com a mensagem inicial */
-const linkWhatsApp = () => { $("wa-btn").href = `${site.whatsappBase}?text=${encodeURIComponent(site.mensagemWhatsApp)}`; };
-linkWhatsApp();
+/* Formulário de orçamento: máscara de telefone (padrão brasileiro), envio completo para o webhook
+   e WhatsApp só com a mensagem, o nome e quando pretende tatuar. */
+const FORM_TXT = {
+  pt: { nome: "Nome", quando: "Quando pretendo tatuar", erroNome: "Informe o seu nome.", erroTel: "Informe um telefone válido com DDD, por exemplo (35) 99999-9999.", erroQuando: "Escolha quando pretende tatuar." },
+  en: { nome: "Name", quando: "When I plan to get tattooed", erroNome: "Please enter your name.", erroTel: "Please enter a valid Brazilian phone number with area code, e.g. (35) 99999-9999.", erroQuando: "Please choose when you plan to get tattooed." },
+  es: { nome: "Nombre", quando: "Cuándo pienso tatuarme", erroNome: "Escribe tu nombre.", erroTel: "Escribe un teléfono válido con código de área, por ejemplo (35) 99999-9999.", erroQuando: "Elige cuándo piensas tatuarte." },
+};
+(function () {
+  const form = $("form-orc"), nome = $("f-nome"), tel = $("f-tel"), quando = $("f-quando"), erro = $("f-erro"), ok = $("f-ok");
+  const txt = () => FORM_TXT[(document.documentElement.lang || "pt").slice(0, 2)] || FORM_TXT.pt;
+  const digitos = (v) => v.replace(/\D/g, "").replace(/^55(?=\d{10,11}$)/, "").slice(0, 11);
+  function mascara(d) {
+    if (!d) return "";
+    if (d.length <= 2) return `(${d}`;
+    if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  }
+  tel.addEventListener("input", () => { tel.value = mascara(digitos(tel.value)); tel.removeAttribute("aria-invalid"); });
+  [nome, quando].forEach((el) => el.addEventListener("input", () => el.removeAttribute("aria-invalid")));
+  const telValido = (d) => /^[1-9][1-9]/.test(d) && (d.length === 10 ? /^[2-5]/.test(d[2]) : d.length === 11 && d[2] === "9");
+  function falha(el, msg) { el.setAttribute("aria-invalid", "true"); erro.textContent = msg; erro.hidden = false; el.focus(); }
+  /* data e hora no padrão brasileiro, sempre no horário de Brasília */
+  function agora() {
+    const p = Object.fromEntries(new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })
+      .formatToParts(new Date()).map((x) => [x.type, x.value]));
+    return { data: `${p.day}/${p.month}/${p.year}`, hora: `${p.hour}:${p.minute}` };
+  }
+  function enviarWebhook(dados) {
+    if (!site.webhookUrl) return;
+    /* formulário simples (application/x-www-form-urlencoded): cada informação chega como um campo separado
+       e o envio continua mesmo com a página indo para o WhatsApp */
+    const corpo = new URLSearchParams(dados);
+    if (!(navigator.sendBeacon && navigator.sendBeacon(site.webhookUrl, corpo)))
+      fetch(site.webhookUrl, { method: "POST", body: corpo, mode: "no-cors", keepalive: true }).catch(() => {});
+  }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    erro.hidden = true; ok.hidden = true;
+    const t = txt(), n = nome.value.trim().replace(/\s+/g, " "), d = digitos(tel.value), q = quando.value;
+    if (form.empresa.value) return; /* robôs preenchem o campo escondido */
+    if (n.length < 2) return falha(nome, t.erroNome);
+    if (!telValido(d)) return falha(tel, t.erroTel);
+    if (!q) return falha(quando, t.erroQuando);
+    const { data, hora } = agora();
+    enviarWebhook({
+      nome: n, telefone: mascara(d), telefone_whatsapp: `+55${d}`, quando_tatuar: q,
+      data, hora, data_hora: `${data} ${hora}`,
+      idioma: (document.documentElement.lang || "pt-BR"), origem: "Site Minas Tattoo", pagina: location.href.split("#")[0],
+    });
+    const qTexto = quando.options[quando.selectedIndex].textContent.trim();
+    const msg = `${site.mensagemWhatsApp}\n\n${t.nome}: ${n}\n${t.quando}: ${qTexto}`;
+    const url = `${site.whatsappBase}?text=${encodeURIComponent(msg)}`;
+    $("f-ok-link").href = url; ok.hidden = false;
+    const aba = window.open(url, "_blank", "noopener");
+    if (!aba) location.href = url;
+  });
+})();
 
 /* IDIOMAS: PT (original da página), EN e ES.
    Textos fixos da página usam data-t (conteúdo) e data-ta (atributos). O português é lido da própria página. */
 const I18N = {
   en: {
     desc: "Anderson Minas Tattoo: realistic tattoos rich in detail, arm and back pieces, portraits and 100% custom projects. Request your quote on WhatsApp.",
-    msg: "Hi, Minas! I came from your website and I'd like to get my tattoo.",
+    msg: "Hi, Minas! I came from your website and I'd like to get a quote.",
     ampliar: "Enlarge: ", ampliarFoto: "Enlarge photo: ", googleAria: "Google review", starsAria: "5 out of 5 stars",
     t: {
       h1: "<span class=\"h1-name\">Minas Tattoo</span><span class=\"h1-city\">Realistic tattoos</span>",
@@ -760,14 +851,25 @@ const I18N = {
       avLink: "See reviews on Google",
       orcTitulo: "How much does a tattoo with Minas cost?",
       orcTexto: "A session with <strong style=\"color:var(--foreground);font-weight:600\">Minas</strong> costs on average <strong style=\"color:var(--foreground);font-weight:600\">R$1,350&nbsp;to&nbsp;R$2,000</strong> (Brazilian reais).",
-      orcSub: "Request your quote with the button below",
+      orcSub: "Fill in below and talk to Minas on WhatsApp",
+      fNome: "Name",
+      fTel: "Phone (WhatsApp)",
+      fQuando: "When do you plan to get tattooed?",
+      fSelecione: "Select",
+      fOk: "Done! We opened WhatsApp with your message.",
+      fOkLink: "If it didn't open, tap here.",
+      fQ1: "As soon as possible",
+      fQ2: "In the next 30 days",
+      fQ3: "In 1 to 3 months",
+      fQ4: "In more than 3 months",
+      fQ5: "I'm not sure yet",
       orcBotao: "Get my quote",
       direitos: "All rights reserved.",
       pfMais: "See full portfolio",
       pfMenos: "Show less",
     },
     ta: {
-      langAria: "Language",
+      langAria: "Language", fNomePh: "Your name",
       heroAlt: "Anderson, realistic tattoo artist at Minas Tattoo, in a black T-shirt and gloves holding a tattoo machine, with a lion painting behind him",
       projetos: "Recent projects",
       projAnt: "Previous project",
@@ -824,7 +926,7 @@ const I18N = {
   },
   es: {
     desc: "Anderson Minas Tattoo: tatuaje realista con gran riqueza de detalles, mangas y espaldas completas, retratos y proyectos 100% personalizados. Solicita tu presupuesto por WhatsApp.",
-    msg: "¡Hola, Minas! Vengo de tu sitio web y quiero hacerme mi tatuaje.",
+    msg: "¡Hola, Minas! Vengo de tu sitio web y quiero pedir mi presupuesto.",
     ampliar: "Ampliar: ", ampliarFoto: "Ampliar foto: ", googleAria: "Reseña de Google", starsAria: "5 de 5 estrellas",
     t: {
       h1: "<span class=\"h1-name\">Minas Tattoo</span><span class=\"h1-city\">Tatuaje realista</span>",
@@ -840,14 +942,25 @@ const I18N = {
       avLink: "Ver reseñas en Google",
       orcTitulo: "¿Cuánto cuesta un tatuaje con Minas?",
       orcTexto: "Una sesión con <strong style=\"color:var(--foreground);font-weight:600\">Minas</strong> cuesta en promedio <strong style=\"color:var(--foreground);font-weight:600\">R$1.350&nbsp;a&nbsp;R$2.000</strong> (reales brasileños).",
-      orcSub: "Solicita tu presupuesto con el botón de abajo",
+      orcSub: "Completa abajo y habla con Minas por WhatsApp",
+      fNome: "Nombre",
+      fTel: "Teléfono (WhatsApp)",
+      fQuando: "¿Cuándo piensas tatuarte?",
+      fSelecione: "Selecciona",
+      fOk: "¡Listo! Abrimos WhatsApp con tu mensaje.",
+      fOkLink: "Si no se abrió, toca aquí.",
+      fQ1: "Lo antes posible",
+      fQ2: "En los próximos 30 días",
+      fQ3: "En 1 a 3 meses",
+      fQ4: "En más de 3 meses",
+      fQ5: "Todavía no lo sé",
       orcBotao: "Quiero recibir mi presupuesto",
       direitos: "Todos los derechos reservados.",
       pfMais: "Ver portafolio completo",
       pfMenos: "Mostrar menos",
     },
     ta: {
-      langAria: "Idioma",
+      langAria: "Idioma", fNomePh: "Tu nombre",
       heroAlt: "Anderson, tatuador realista de Minas Tattoo, con camiseta negra y guantes sosteniendo la máquina de tatuar, con un cuadro de león al fondo",
       projetos: "Proyectos recientes",
       projAnt: "Proyecto anterior",
@@ -937,7 +1050,6 @@ const I18N = {
     site.portfolio.forEach((f, i) => { f.alt = L.portfolio[i]; });
     site.avaliacoes.forEach((a, i) => { const v = L.avaliacoes[i]; a.tempo = v.tempo; a.texto = v.texto; if (a.foto) a.fotoAlt = v.fotoAlt || a.fotoAlt; });
     site.mensagemWhatsApp = L.msg;
-    linkWhatsApp();
     const nE = site.estilos.length;
     document.querySelectorAll("#styles-track .style-card").forEach((c, i) => {
       const e = site.estilos[i % nE];
