@@ -9,7 +9,7 @@
 <meta name="author" content="Anderson Minas Tattoo">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "TattooParlor", "name": "Minas Tattoo", "alternateName": "Anderson Minas Tattoo", "description": "Tatuagem realista com o tatuador Anderson, conhecido como Minas.", "founder": {"@type": "Person", "name": "Anderson", "alternateName": "Minas", "jobTitle": "Tatuador"}, "telephone": "+55 35 99710-9309", "priceRange": "R$1.350 - R$2.000", "image": "assets/tatuador-minas-tattoo-banner.webp", "sameAs": ["https://www.instagram.com/minastattoo_/"], "knowsAbout": ["Tatuagem realista", "Realismo preto e cinza", "Fechamento de braço", "Retrato realista", "Tatuagem religiosa"]}</script>
 <link rel="icon" type="image/png" href="favicon-minas.png">
-<link rel="preload" as="image" href="assets/tatuador-minas-tattoo-banner.webp" imagesrcset="assets/tatuador-minas-tattoo-banner-420.webp 420w, assets/tatuador-minas-tattoo-banner.webp 486w" imagesizes="(min-width: 900px) 56vw, 100vw" fetchpriority="high">
+<link rel="preload" as="image" href="assets/tatuador-minas-tattoo-banner.webp" imagesrcset="assets/tatuador-minas-tattoo-banner-420.webp 420w, assets/tatuador-minas-tattoo-banner.webp 486w" imagesizes="(min-width: 900px) 62vw, 100vw" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@400;500;600&display=swap">
@@ -104,8 +104,10 @@ button { font: inherit; }
 @media (min-width: 768px) { .hero-sub { font-size: 1.125rem; } }
 .hero-cta { margin-top: 2rem; }
 @media (min-width: 900px) {
-  .hero > img { left: auto; width: 56%; object-position: 50% 0; }
-  .hero::after { background: linear-gradient(90deg, var(--primary) 0 42%, rgba(17, 17, 17, .55) 50%, rgba(17, 17, 17, 0) 62%); }
+  .hero > img { left: auto; width: 62%; object-position: 50% 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .35) 14%, rgba(0, 0, 0, .8) 28%, #000 42%);
+            mask-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .35) 14%, rgba(0, 0, 0, .8) 28%, #000 42%); }
+  .hero::after { background: linear-gradient(90deg, var(--primary) 0 36%, rgba(17, 17, 17, .6) 46%, rgba(17, 17, 17, .15) 58%, rgba(17, 17, 17, 0) 66%); }
   .hero-inner { justify-content: flex-start; }
   .hero-copy { text-align: left; max-width: 31rem; }
   .hero-sub { margin-left: 0; }
@@ -157,7 +159,10 @@ button { font: inherit; }
 #portfolio .grid-pf { margin-top: 0; }
 .styles-viewport { overflow: hidden; padding-bottom: .5rem; touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab; }
 .styles-viewport.dragging { cursor: grabbing; }
-.styles-track { display: flex; width: max-content; will-change: transform; }
+.styles-track { display: flex; width: max-content; will-change: transform; transform: translate3d(0, 0, 0); backface-visibility: hidden; }
+.styles-track.auto { animation: estilos-rolagem var(--volta, 14s) linear infinite; }
+.styles-track.pausado { animation-play-state: paused; }
+@keyframes estilos-rolagem { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(calc(var(--copy-w, 0px) * -1), 0, 0); } }
 .styles-copy { display: flex; }
 .style-card { width: 15rem; flex: none; padding-right: 1.5rem; }
 @media (min-width: 640px) { .style-card { width: 19rem; } }
@@ -355,7 +360,7 @@ footer .small-muted { font-size: .68rem; }
     <button type="button" data-lang="en" aria-pressed="false" title="English"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#B22234"/><g fill="#fff"><rect y="1.54" width="30" height="1.54"/><rect y="4.62" width="30" height="1.54"/><rect y="7.69" width="30" height="1.54"/><rect y="10.77" width="30" height="1.54"/><rect y="13.85" width="30" height="1.54"/><rect y="16.92" width="30" height="1.54"/></g><rect width="12" height="10.77" fill="#3C3B6E"/><g fill="#fff"><circle cx="2" cy="1.8" r=".55"/><circle cx="6" cy="1.8" r=".55"/><circle cx="10" cy="1.8" r=".55"/><circle cx="4" cy="4" r=".55"/><circle cx="8" cy="4" r=".55"/><circle cx="2" cy="6.2" r=".55"/><circle cx="6" cy="6.2" r=".55"/><circle cx="10" cy="6.2" r=".55"/><circle cx="4" cy="8.4" r=".55"/><circle cx="8" cy="8.4" r=".55"/></g></svg>EN</button>
     <button type="button" data-lang="es" aria-pressed="false" title="Español"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg>ES</button>
   </nav>
-  <img src="assets/tatuador-minas-tattoo-banner.webp" srcset="assets/tatuador-minas-tattoo-banner-420.webp 420w, assets/tatuador-minas-tattoo-banner.webp 486w" sizes="(min-width: 900px) 56vw, 100vw" width="486" height="608" alt="Anderson, tatuador do Minas Tattoo especialista em tatuagem realista, de camiseta preta e luvas segurando a máquina de tatuagem, com quadro de leão ao fundo" data-ta="alt:heroAlt" fetchpriority="high" decoding="async">
+  <img src="assets/tatuador-minas-tattoo-banner.webp" srcset="assets/tatuador-minas-tattoo-banner-420.webp 420w, assets/tatuador-minas-tattoo-banner.webp 486w" sizes="(min-width: 900px) 62vw, 100vw" width="486" height="608" alt="Anderson, tatuador do Minas Tattoo especialista em tatuagem realista, de camiseta preta e luvas segurando a máquina de tatuagem, com quadro de leão ao fundo" data-ta="alt:heroAlt" fetchpriority="high" decoding="async">
   <div class="wrap hero-inner">
     <div class="hero-copy">
       <h1 data-t="h1"><span class="h1-name">Minas Tattoo</span><span class="h1-city">Tatuagem realista</span></h1>
@@ -534,7 +539,7 @@ function srcset(src, sizes) {
   return ` srcset="${src.replace(/\.webp$/, "-360.webp")} 360w, ${src.replace(/\.webp$/, "-480.webp")} 480w, ${src} 900w" sizes="${sizes}"`;
 }
 function media(src, alt, motivo, lazy = true, sizes = "") {
-  return src ? `<span class="ph"><img src="${esc(src)}"${srcset(src, sizes)} alt="${esc(alt)}" ${lazy ? 'loading="lazy"' : ""} decoding="async" draggable="false"></span>` : placeholder(motivo, alt);
+  return src ? `<span class="ph"><img src="${esc(src)}"${srcset(src, sizes)} alt="${esc(alt)}" ${lazy === "baixa" ? 'fetchpriority="low"' : lazy ? 'loading="lazy"' : ""} decoding="async" draggable="false"></span>` : placeholder(motivo, alt);
 }
 
 /* Letreiro */
@@ -544,51 +549,97 @@ function renderMarquee() {
 }
 renderMarquee();
 
-/* Estilos: carrossel contínuo, pausa no hover, arrasto e setas */
+/* Estilos: carrossel contínuo, pausa no hover, arrasto e setas.
+   A rolagem automática é uma animação CSS (roda no compositor do navegador): fica suave no celular
+   mesmo enquanto a página rola. Arrasto e setas passam para o modo manual e depois a animação
+   retoma do ponto onde parou. */
 (function () {
-  const track = $("styles-track"), viewport = $("styles-viewport");
-  const card = (e) => `<article class="style-card">${media(e.imagem, e.alt || e.titulo, e.motivo, true, "(min-width: 640px) 19rem, 15rem")}<h3>${e.titulo}</h3><p>${e.texto}</p></article>`;
+  const track = $("styles-track"), viewport = $("styles-viewport"), box = $("styles");
+  const card = (e) => `<article class="style-card">${media(e.imagem, e.alt || e.titulo, e.motivo, "baixa", "(min-width: 640px) 19rem, 15rem")}<h3>${e.titulo}</h3><p>${e.texto}</p></article>`;
   track.innerHTML = [0, 1, 2, 3].map((c) => `<div class="styles-copy"${c ? ' aria-hidden="true"' : ""}>${site.estilos.map(card).join("")}</div>`).join("");
   track.querySelectorAll('.styles-copy[aria-hidden] a').forEach((a) => a.tabIndex = -1);
   const copy = track.firstElementChild;
-  const st = { paused: false, pos: 0, target: null, drag: null, moved: 0 };
-  /* largura medida só quando muda e animação parada fora da tela: evita reflow a cada quadro */
-  let copyW = 0, visivel = true;
-  if (window.ResizeObserver) new ResizeObserver((en) => { copyW = en[0].borderBoxSize ? en[0].borderBoxSize[0].inlineSize : copy.offsetWidth; }).observe(copy);
-  else { requestAnimationFrame(() => { copyW = copy.offsetWidth; }); window.addEventListener("resize", () => { copyW = copy.offsetWidth; }); }
-  if (window.IntersectionObserver) new IntersectionObserver((en) => { visivel = en[0].isIntersecting; }, { rootMargin: "100px" }).observe(viewport);
-  let last = performance.now();
-  function tick(ts) {
-    const dt = Math.min((ts - last) / 1000, 0.1); last = ts;
-    const w = copyW;
-    if (w > 0 && visivel) {
-      if (st.drag) {} else if (st.target !== null) {
-        const d = st.target - st.pos;
-        if (Math.abs(d) < 0.5) { st.pos = st.target; st.target = null; } else st.pos += d * Math.min(1, dt * 9);
-      } else if (!st.paused && !reduced) st.pos += (w / 14) * dt;
-      if (st.pos >= w) { st.pos -= w; if (st.target !== null) st.target -= w; if (st.drag) st.drag.pos -= w; }
-      else if (st.pos < 0) { st.pos += w; if (st.target !== null) st.target += w; if (st.drag) st.drag.pos += w; }
-      track.style.transform = `translate3d(${-st.pos}px,0,0)`;
-    }
-    requestAnimationFrame(tick);
+  const VOLTA = 14; /* segundos para passar todos os projetos uma vez */
+  let w = 0, pos = 0, modo = "manual", hover = false, foco = false, anim = null, resta = 0, retomar = null, arr = null, arrastou = false;
+  const wrap = (x) => (w ? ((x % w) + w) % w : 0);
+  const aplicar = () => { track.style.transform = `translate3d(${-pos}px,0,0)`; };
+  const lerPos = () => wrap(-new DOMMatrixReadOnly(getComputedStyle(track).transform).m41);
+  const pausar = () => track.classList.toggle("pausado", hover || foco);
+  function auto() {
+    if (reduced || !w) { modo = "manual"; aplicar(); return; }
+    modo = "auto";
+    track.style.transform = "";
+    track.style.animationDelay = `${-(pos / w) * VOLTA}s`;
+    track.classList.remove("auto"); void track.offsetWidth; track.classList.add("auto");
+    pausar();
   }
-  requestAnimationFrame(tick);
-  const step = (dir) => { const c = copy.querySelector("article"); st.target = (st.target ?? st.pos) + dir * (c ? c.offsetWidth : 280); };
-  $("styles-prev").onclick = () => step(-1);
-  $("styles-next").onclick = () => step(1);
-  const box = $("styles");
-  box.addEventListener("mouseenter", () => st.paused = true);
-  box.addEventListener("mouseleave", () => { st.paused = false; st.drag = null; viewport.classList.remove("dragging"); });
-  box.addEventListener("focusin", () => st.paused = true);
-  box.addEventListener("focusout", () => st.paused = false);
-  viewport.addEventListener("pointerdown", (e) => { st.drag = { x: e.clientX, pos: st.pos }; st.target = null; st.moved = 0; viewport.classList.add("dragging"); });
-  viewport.addEventListener("pointermove", (e) => { if (st.drag) { st.moved = Math.abs(e.clientX - st.drag.x); st.pos = st.drag.pos - (e.clientX - st.drag.x); } });
-  const end = () => { st.drag = null; viewport.classList.remove("dragging"); };
-  viewport.addEventListener("pointerup", end);
-  viewport.addEventListener("pointercancel", end);
+  function manual() {
+    clearTimeout(retomar);
+    if (modo === "auto") { pos = lerPos(); track.classList.remove("auto", "pausado"); aplicar(); }
+    modo = "manual";
+  }
+  const voltarAuto = (ms) => { clearTimeout(retomar); retomar = setTimeout(() => { if (!(arr && arr.ativo) && !anim) auto(); }, ms); };
+  function medir() {
+    const nw = copy.offsetWidth;
+    if (!nw || nw === w) return;
+    if (modo === "auto" && w) pos = lerPos();
+    pos = w ? (pos / w) * nw : 0; w = nw;
+    track.style.setProperty("--copy-w", `${w}px`);
+    track.style.setProperty("--volta", `${VOLTA}s`);
+    if (modo === "auto" || !anim) auto(); else aplicar();
+  }
+  if (window.ResizeObserver) new ResizeObserver(medir).observe(copy); else window.addEventListener("resize", medir);
+  requestAnimationFrame(medir);
+
+  /* setas: desliza um card com suavidade e retoma a rolagem automática */
+  function deslizar(delta) {
+    manual(); cancelAnimationFrame(anim);
+    const ini = pos, d = delta + resta, t0 = performance.now(), T = 450;
+    const passo = (t) => {
+      const k = Math.min(1, (t - t0) / T), e = 1 - Math.pow(1 - k, 3);
+      pos = wrap(ini + d * e); resta = d * (1 - e); aplicar();
+      if (k < 1) anim = requestAnimationFrame(passo); else { anim = null; resta = 0; voltarAuto(1500); }
+    };
+    anim = requestAnimationFrame(passo);
+  }
+  const largCard = () => { const c = copy.querySelector("article"); return c ? c.offsetWidth : 280; };
+  $("styles-prev").onclick = () => deslizar(-largCard());
+  $("styles-next").onclick = () => deslizar(largCard());
+
+  /* pausa com o mouse em cima ou com o foco do teclado (o toque no celular não pausa) */
+  box.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hover = true; pausar(); } });
+  box.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hover = false; pausar(); } });
+  box.addEventListener("focusin", (e) => { foco = !!(e.target.matches && e.target.matches(":focus-visible")); pausar(); });
+  box.addEventListener("focusout", () => { foco = false; pausar(); });
+
+  /* arrasto: só vira arrasto com movimento claramente horizontal; a rolagem vertical da página segue normal */
+  viewport.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    arr = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: 0, base: 0, ativo: false }; arrastou = false;
+  });
+  viewport.addEventListener("pointermove", (e) => {
+    if (!arr || e.pointerId !== arr.id) return;
+    if (!arr.ativo) {
+      const dx = e.clientX - arr.x0, dy = e.clientY - arr.y0;
+      if (Math.abs(dx) < 6 || Math.abs(dx) < Math.abs(dy)) return;
+      cancelAnimationFrame(anim); anim = null; resta = 0; manual();
+      arr.ativo = true; arrastou = true; arr.x = e.clientX; arr.base = pos;
+      viewport.classList.add("dragging");
+      try { viewport.setPointerCapture(e.pointerId); } catch (_) {}
+    }
+    pos = wrap(arr.base - (e.clientX - arr.x)); aplicar();
+  });
+  const fim = (e) => {
+    if (!arr || (e && e.pointerId !== arr.id)) return;
+    const ativo = arr.ativo; arr = null; viewport.classList.remove("dragging");
+    if (ativo) voltarAuto(1200);
+  };
+  viewport.addEventListener("pointerup", fim);
+  viewport.addEventListener("pointercancel", fim);
+
   /* clique na foto abre ampliada (ignora quando a pessoa estava arrastando o carrossel) */
   viewport.addEventListener("click", (e) => {
-    if (st.moved > 6) { e.preventDefault(); return; }
+    if (arrastou) { arrastou = false; e.preventDefault(); return; }
     const art = e.target.closest(".style-card");
     if (!art || !e.target.closest(".ph")) return;
     const i = Array.from(track.querySelectorAll(".style-card")).indexOf(art) % site.estilos.length;
@@ -659,8 +710,8 @@ renderMarquee();
   const ordenadas = [...site.avaliacoes].sort((x, y) => (y.foto ? 1 : 0) - (x.foto ? 1 : 0));
   box.innerHTML = ordenadas.map((a) => {
     const ini = a.nome.split(" ").filter((p) => /^\p{L}/u.test(p)).slice(0, 2).map((p) => p[0].toUpperCase()).join("");
-    const foto = a.avatar ? `<img class="avatar avatar-img" src="${esc(a.avatar)}" alt="" width="44" height="44" loading="lazy" decoding="async">` : `<div class="avatar" aria-hidden="true">${ini}</div>`;
-    return `<article class="review" data-i="${site.avaliacoes.indexOf(a)}"><div class="review-head">${foto}<div style="min-width:0"><h3>${esc(a.nome)}</h3><time>${a.tempo}</time></div><span class="g-badge" role="img" aria-label="Avaliação do Google">${g}</span></div><div class="stars" role="img" aria-label="5 de 5 estrelas">${stars}</div><p>${esc(a.texto).replace(/\n/g, "<br>")}</p>${a.foto ? `<button type="button" class="review-photo-btn" data-src="${esc(a.foto)}" data-alt="${esc(a.fotoAlt || "")}" aria-label="Ampliar foto: ${esc(a.fotoAlt || "tatuagem")}"><img class="review-photo" src="${esc(a.foto)}" srcset="${esc(a.foto.replace(/\.webp$/, "-480.webp"))} 480w, ${esc(a.foto)} 680w" sizes="(min-width: 1024px) 20rem, (min-width: 640px) calc(50vw - 5rem), calc(86vw - 5.5rem)" alt="${esc(a.fotoAlt || "")}" loading="lazy" decoding="async" draggable="false"></button>` : ""}</article>`;
+    const foto = a.avatar ? `<img class="avatar avatar-img" src="${esc(a.avatar)}" alt="" width="44" height="44" fetchpriority="low" decoding="async">` : `<div class="avatar" aria-hidden="true">${ini}</div>`;
+    return `<article class="review" data-i="${site.avaliacoes.indexOf(a)}"><div class="review-head">${foto}<div style="min-width:0"><h3>${esc(a.nome)}</h3><time>${a.tempo}</time></div><span class="g-badge" role="img" aria-label="Avaliação do Google">${g}</span></div><div class="stars" role="img" aria-label="5 de 5 estrelas">${stars}</div><p>${esc(a.texto).replace(/\n/g, "<br>")}</p>${a.foto ? `<button type="button" class="review-photo-btn" data-src="${esc(a.foto)}" data-alt="${esc(a.fotoAlt || "")}" aria-label="Ampliar foto: ${esc(a.fotoAlt || "tatuagem")}"><img class="review-photo" src="${esc(a.foto)}" srcset="${esc(a.foto.replace(/\.webp$/, "-480.webp"))} 480w, ${esc(a.foto)} 680w" sizes="(min-width: 1024px) 20rem, (min-width: 640px) calc(50vw - 5rem), calc(86vw - 5.5rem)" alt="${esc(a.fotoAlt || "")}" fetchpriority="low" decoding="async" draggable="false"></button>` : ""}</article>`;
   }).join("");
   box.addEventListener("click", (e) => { const b = e.target.closest(".review-photo-btn"); if (b) window.abrirFotoUnica(b.dataset.src, b.dataset.alt, b); });
   let paused = false;
