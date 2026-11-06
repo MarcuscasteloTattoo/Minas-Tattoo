@@ -773,11 +773,11 @@ renderMarquee();
 })();
 
 /* Formulário de orçamento: máscara de telefone (padrão brasileiro), envio completo para o webhook
-   e WhatsApp só com a mensagem, o nome e quando quer tatuar. */
+   e WhatsApp com a mensagem, o nome, quando quer tatuar e a ideia de tatuagem (o telefone vai só para o webhook). */
 const FORM_TXT = {
-  pt: { nome: "Nome", quando: "Quando quero tatuar", erroNome: "Informe o seu nome.", erroTel: "Informe um telefone válido com DDD, por exemplo (31) 99999-9999.", erroQuando: "Escolha quando você quer tatuar." },
-  en: { nome: "Name", quando: "When I want to get tattooed", erroNome: "Please enter your name.", erroTel: "Please enter a valid Brazilian phone number with area code, e.g. (31) 99999-9999.", erroQuando: "Please choose when you want to get tattooed." },
-  es: { nome: "Nombre", quando: "Cuándo quiero tatuarme", erroNome: "Escribe tu nombre.", erroTel: "Escribe un teléfono válido con código de área, por ejemplo (31) 99999-9999.", erroQuando: "Elige cuándo quieres tatuarte." },
+  pt: { nome: "Nome", quando: "Quando quero tatuar", ideia: "Minha ideia de tatuagem", erroNome: "Informe o seu nome.", erroTel: "Informe um telefone válido com DDD, por exemplo (31) 99999-9999.", erroQuando: "Escolha quando você quer tatuar." },
+  en: { nome: "Name", quando: "When I want to get tattooed", ideia: "My tattoo idea", erroNome: "Please enter your name.", erroTel: "Please enter a valid Brazilian phone number with area code, e.g. (31) 99999-9999.", erroQuando: "Please choose when you want to get tattooed." },
+  es: { nome: "Nombre", quando: "Cuándo quiero tatuarme", ideia: "Mi idea de tatuaje", erroNome: "Escribe tu nombre.", erroTel: "Escribe un teléfono válido con código de área, por ejemplo (31) 99999-9999.", erroQuando: "Elige cuándo quieres tatuarte." },
 };
 (function () {
   const form = $("form-orc"), nome = $("f-nome"), tel = $("f-tel"), quando = $("f-quando"), erro = $("f-erro");
@@ -811,19 +811,19 @@ const FORM_TXT = {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     erro.hidden = true;
-    const t = txt(), n = nome.value.trim().replace(/\s+/g, " "), d = digitos(tel.value), q = quando.value;
+    const t = txt(), n = nome.value.trim().replace(/\s+/g, " "), d = digitos(tel.value), q = quando.value, ideia = $("f-ideia").value.trim();
     if (form.empresa.value) return; /* robôs preenchem o campo escondido */
     if (n.length < 2) return falha(nome, t.erroNome);
     if (!telValido(d)) return falha(tel, t.erroTel);
     if (!q) return falha(quando, t.erroQuando);
     const { data, hora } = agora();
     enviarWebhook({
-      nome: n, telefone: mascara(d), telefone_whatsapp: `+55${d}`, quando_tatuar: q, ideia_tatuagem: $("f-ideia").value.trim(),
+      nome: n, telefone: mascara(d), telefone_whatsapp: `+55${d}`, quando_tatuar: q, ideia_tatuagem: ideia,
       data, hora, data_hora: `${data} ${hora}`,
       idioma: (document.documentElement.lang || "pt-BR"), origem: "Site Minas Tattoo", pagina: location.href.split("#")[0],
     });
     const qTexto = quando.options[quando.selectedIndex].textContent.trim();
-    const msg = `${site.mensagemWhatsApp}\n\n${t.nome}: ${n}\n${t.quando}: ${qTexto}`;
+    const msg = `${site.mensagemWhatsApp}\n\n${t.nome}: ${n}\n${t.quando}: ${qTexto}` + (ideia ? `\n${t.ideia}: ${ideia}` : "");
     const url = `${site.whatsappBase}?text=${encodeURIComponent(msg)}`;
     /* leva direto para o WhatsApp (na mesma aba). Dentro de uma moldura (pré-visualização), abre em nova aba. */
     if (window.top !== window.self) { if (!window.open(url, "_blank", "noopener")) location.href = url; }
