@@ -29,7 +29,7 @@ No fim do `index.html`, dentro do `<script>`, o objeto `site` guarda o conteúdo
 - `estilos`: os cards do carrossel "Projetos recentes" (título, texto, foto e descrição da foto).
 - `portfolio`: as fotos do portfólio, na ordem em que aparecem. Todas aparecem de uma vez. Para mostrar só as primeiras e esconder o resto no botão "Ver portfólio completo", troque `PF_VISIVEIS` no `<script>` por um número (ex.: 12). Para acrescentar, coloque a foto em `assets/` e adicione `{ src: "assets/nome.webp", alt: "descrição" }`.
 - `avaliacoes`: avaliações do Google (nome, tempo, avatar, texto), mostradas em carrossel abaixo da nota (5,0, 41 avaliações). O `avatar` é a foto do cliente (quadrada, em `assets/`); sem ela aparecem as iniciais do nome. Cada avaliação precisa da tradução em `I18N.en.avaliacoes` e `I18N.es.avaliacoes`. Sem nenhuma avaliação, a seção mostra só a nota e o link para o Google; as que têm `foto` aparecem primeiro e abrem ampliadas ao toque. A nota e o total ficam no HTML e nas traduções (`avNota`, `avTotal`).
-- `whatsappBase` e `mensagemWhatsApp`: número e mensagem inicial dos botões do WhatsApp ("Quem sou" e orçamento).
+- `whatsappBase` e `mensagemWhatsApp`: número e mensagem inicial do botão de orçamento pelo WhatsApp.
 
 Ficam direto no HTML: textos do banner, do "Quem sou" e do valor médio e o link do Instagram.
 
@@ -37,11 +37,11 @@ Ficam direto no HTML: textos do banner, do "Quem sou" e do valor médio e o link
 
 Os nomes das fotos descrevem a tatuagem e terminam em `-minas-tattoo`, para ajudar a busca do Google.
 
-- `assets/tatuador-anderson-minas-tattoo.webp`: foto do banner
+- `assets/tatuador-anderson-minas-tattoo-banner.webp`: foto do banner
 - `assets/anderson-minas-tattoo-quem-sou.webp`: foto do "Quem sou"
 - `assets/tatuagem-*-minas-tattoo.webp`: fotos do carrossel "Projetos recentes" e do portfólio
 
-As fotos de tatuagem têm versões menores com `-480` e `-360` no nome, e o banner e o "Quem sou" têm versões `-540` e `-720`. O celular carrega a versão menor e o computador a maior. Ao trocar uma foto, troque todas as versões e mantenha o nome descritivo, começando por `tatuagem-` (é o que liga as versões menores no código).
+As fotos de tatuagem têm versões menores com `-480` e `-360` no nome, e o banner e o "Quem sou" têm versões `-420` e `-720`. O celular carrega a versão menor e o computador a maior. Ao trocar uma foto, troque todas as versões e mantenha o nome descritivo, começando por `tatuagem-` (é o que liga as versões menores no código).
 
 O texto alternativo (`alt`) de cada foto fica no objeto `site` e nas traduções `I18N`, sempre citando o tipo de tatuagem e o Minas Tattoo.
 

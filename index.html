@@ -7,9 +7,9 @@
 <meta name="description" content="Anderson Minas Tattoo: tatuagem realista com riqueza de detalhes, fechamentos de braço e costas, retratos e projetos 100% personalizados. Peça seu orçamento pelo WhatsApp.">
 <meta name="keywords" content="Minas Tattoo, Anderson Minas Tattoo, tatuagem realista, tatuador realista, realismo preto e cinza, fechamento de braço, fechamento de costas, retrato realista, tatuagem religiosa">
 <meta name="author" content="Anderson Minas Tattoo">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TattooParlor", "name": "Minas Tattoo", "alternateName": "Anderson Minas Tattoo", "description": "Tatuagem realista com o tatuador Anderson, conhecido como Minas.", "founder": {"@type": "Person", "name": "Anderson", "alternateName": "Minas", "jobTitle": "Tatuador"}, "telephone": "+55 35 99710-9309", "priceRange": "R$1.350 - R$2.000", "image": "assets/tatuador-anderson-minas-tattoo.webp", "sameAs": ["https://www.instagram.com/minastattoo_/"], "knowsAbout": ["Tatuagem realista", "Realismo preto e cinza", "Fechamento de braço", "Retrato realista", "Tatuagem religiosa"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TattooParlor", "name": "Minas Tattoo", "alternateName": "Anderson Minas Tattoo", "description": "Tatuagem realista com o tatuador Anderson, conhecido como Minas.", "founder": {"@type": "Person", "name": "Anderson", "alternateName": "Minas", "jobTitle": "Tatuador"}, "telephone": "+55 35 99710-9309", "priceRange": "R$1.350 - R$2.000", "image": "assets/tatuador-anderson-minas-tattoo-banner.webp", "sameAs": ["https://www.instagram.com/minastattoo_/"], "knowsAbout": ["Tatuagem realista", "Realismo preto e cinza", "Fechamento de braço", "Retrato realista", "Tatuagem religiosa"]}</script>
 <link rel="icon" type="image/png" href="favicon-minas.png">
-<link rel="preload" as="image" href="assets/tatuador-anderson-minas-tattoo.webp" imagesrcset="assets/tatuador-anderson-minas-tattoo-540.webp 540w, assets/tatuador-anderson-minas-tattoo.webp 720w" imagesizes="(min-width: 900px) 56vw, 100vw" fetchpriority="high">
+<link rel="preload" as="image" href="assets/tatuador-anderson-minas-tattoo-banner.webp" imagesrcset="assets/tatuador-anderson-minas-tattoo-banner-420.webp 420w, assets/tatuador-anderson-minas-tattoo-banner.webp 560w" imagesizes="(min-width: 900px) 56vw, 100vw" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@400;500;600&display=swap">
@@ -21,14 +21,14 @@ img { max-width: 100%; }
 [hidden] { display: none !important; }
 
 /* Layout: hero em tela cheia com retrato, letreiro, faixas alternadas, colunas de até 72rem.
-   Paleta terrosa: areia clara, bege, terracota, marrom e verde-oliva. Visual claro único, por escolha. */
+   Paleta: banner preto, areia clara, bege, terracota e verde-oliva escuro na seção de orçamento. Visual claro único, por escolha. */
 :root {
   color-scheme: light;
   /* Paleta do site: #dad6cb #d2b895 #aa7651 #4e341b #46402a #625f40 */
   --background: #f4f2ed;
   --foreground: #2e2214;
   --card: #fbfaf7;
-  --primary: #46402a;
+  --primary: #111111;
   --primary-fg: #fbfaf7;
   --secondary: #dad6cb;
   --secondary-soft: #e9e5dc;
@@ -45,7 +45,8 @@ img { max-width: 100%; }
   --destructive: oklch(0.577 0.245 27.325);
   --hero-fg: #fbfaf7;
   --hero-muted: #e2dccf;
-  --overlay: rgba(46, 41, 26, .62);
+  --overlay: rgba(10, 10, 10, .62);
+  --verde-escuro: #2b2a1a;
   --scrim: rgba(30, 22, 12, .94);
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --font-body: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -103,7 +104,7 @@ button { font: inherit; }
 .hero-cta { margin-top: 2rem; }
 @media (min-width: 900px) {
   .hero > img { left: auto; width: 56%; object-position: 50% 0; }
-  .hero::after { background: linear-gradient(90deg, var(--primary) 0 42%, rgba(70, 64, 42, .55) 50%, rgba(70, 64, 42, 0) 62%); }
+  .hero::after { background: linear-gradient(90deg, var(--primary) 0 42%, rgba(17, 17, 17, .55) 50%, rgba(17, 17, 17, 0) 62%); }
   .hero-inner { justify-content: flex-start; }
   .hero-copy { text-align: left; max-width: 31rem; }
   .hero-sub { margin-left: 0; }
@@ -112,7 +113,7 @@ button { font: inherit; }
 @media (max-width: 899px) {
   /* foto na largura da tela, presa no alto (proporção 4:5 => altura = 125vw) */
   .hero > img { bottom: auto; height: 125vw; object-position: 50% 0; }
-  .hero::after { background: linear-gradient(180deg, rgba(46, 41, 26, .1) 0, rgba(46, 41, 26, 0) calc(125vw * .3), rgba(46, 41, 26, .45) calc(125vw * .58), rgba(46, 41, 26, .9) calc(125vw * .78), var(--primary) calc(125vw * .97)); }
+  .hero::after { background: linear-gradient(180deg, rgba(17, 17, 17, .1) 0, rgba(17, 17, 17, 0) calc(125vw * .3), rgba(17, 17, 17, .45) calc(125vw * .58), rgba(17, 17, 17, .9) calc(125vw * .78), var(--primary) calc(125vw * .97)); }
   .hero-inner { min-height: 0; align-items: flex-start; padding-block: calc(125vw * .62) 2.5rem; }
 }
 .btn {
@@ -132,7 +133,7 @@ button { font: inherit; }
 @media (min-width: 768px) { .lang { top: 1.25rem; right: 1.5rem; } }
 .lang button {
   display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .6rem .35rem .45rem;
-  border: 1px solid oklch(1 0 0 / .22); border-radius: 999px; background: rgba(46, 41, 26, .55);
+  border: 1px solid oklch(1 0 0 / .22); border-radius: 999px; background: rgba(17, 17, 17, .55);
   color: var(--hero-fg); font-size: .72rem; font-weight: 600; letter-spacing: .08em; cursor: pointer;
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: border-color .2s, color .2s;
 }
@@ -216,26 +217,8 @@ button { font: inherit; }
 .stars svg { width: 1rem; height: 1rem; }
 .review p { margin-top: 1rem; font-size: .875rem; line-height: 1.65; }
 .review-photo-btn { display: block; width: 100%; margin-top: 1rem; padding: 0; border: 0; background: none; border-radius: .375rem; overflow: hidden; cursor: zoom-in; }
-.review-photo-btn .rating { margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: .5rem .75rem; flex-wrap: wrap; }
-.rating .stars { margin-top: 0; }
-.rating .stars svg { width: 1.25rem; height: 1.25rem; }
-.rating-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 500; line-height: 1; }
-.rating-total { font-size: .875rem; color: var(--muted-fg); }
-.about-acoes { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
-.about-copy .about-acoes .link-accent { margin-top: 0; }
-.about-acoes .btn-wa { font-size: .875rem; padding: .9rem 1.5rem; }
-.about-acoes .btn-wa .icon-wa { width: 1.25rem; height: 1.25rem; }
-.review-photo { margin-top: 0; transition: transform .3s ease; }
-.review-photo-btn:hover .rating { margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: .5rem .75rem; flex-wrap: wrap; }
-.rating .stars { margin-top: 0; }
-.rating .stars svg { width: 1.25rem; height: 1.25rem; }
-.rating-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 500; line-height: 1; }
-.rating-total { font-size: .875rem; color: var(--muted-fg); }
-.about-acoes { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
-.about-copy .about-acoes .link-accent { margin-top: 0; }
-.about-acoes .btn-wa { font-size: .875rem; padding: .9rem 1.5rem; }
-.about-acoes .btn-wa .icon-wa { width: 1.25rem; height: 1.25rem; }
-.review-photo { transform: scale(1.04); }
+.review-photo-btn .review-photo { margin-top: 0; transition: transform .3s ease; }
+.review-photo-btn:hover .review-photo { transform: scale(1.04); }
 .lightbox.unica .lb-prev, .lightbox.unica .lb-next { display: none; }
 .lightbox.unica .lb-media { width: auto; max-width: 92vw; }
 .lb-unica { display: block; max-width: 92vw; max-height: 82vh; width: auto; height: auto; border-radius: .5rem; }
@@ -246,8 +229,6 @@ button { font: inherit; }
 .rating-total { font-size: .875rem; color: var(--muted-fg); }
 .about-acoes { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
 .about-copy .about-acoes .link-accent { margin-top: 0; }
-.about-acoes .btn-wa { font-size: .875rem; padding: .9rem 1.5rem; }
-.about-acoes .btn-wa .icon-wa { width: 1.25rem; height: 1.25rem; }
 .review-photo { margin-top: 1rem; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 40%; border-radius: .375rem; display: block; }
 .reviews-foot { margin-top: 2.25rem; text-align: center; }
 .link-accent { display: inline-flex; align-items: center; gap: .5rem; font-size: .875rem; font-weight: 500; color: var(--accent); text-decoration: none; text-underline-offset: 4px; }
@@ -309,7 +290,7 @@ footer .foot-ig svg { width: 1.1rem; height: 1.1rem; }
 footer .small-muted { font-size: .68rem; }
 @media (min-width: 768px) { footer .foot { padding-block: 1.25rem; } footer .small-muted { font-size: .72rem; } }
 /* Seção final de orçamento: escura, como o banner */
-#orcamento { background: var(--brown-dark); color: var(--hero-fg); border-color: transparent; }
+#orcamento { background: var(--verde-escuro); color: var(--hero-fg); border-color: transparent; }
 #orcamento .h2 { color: var(--hero-fg); }
 #orcamento .lead { color: var(--hero-muted); }
 #orcamento strong { color: var(--gold) !important; }
@@ -349,7 +330,7 @@ footer .small-muted { font-size: .68rem; }
 <meta property="og:description" content="Tatuagem realista com o Anderson, do Minas Tattoo. Orçamento pelo WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:image" content="assets/tatuador-anderson-minas-tattoo.webp">
+<meta property="og:image" content="assets/tatuador-anderson-minas-tattoo-banner.webp">
 <meta property="og:image:alt" content="Anderson, tatuador do Minas Tattoo">
 <link rel="apple-touch-icon" href="apple-touch-icon-minas.png">
 </head>
@@ -373,7 +354,7 @@ footer .small-muted { font-size: .68rem; }
     <button type="button" data-lang="en" aria-pressed="false" title="English"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#B22234"/><g fill="#fff"><rect y="1.54" width="30" height="1.54"/><rect y="4.62" width="30" height="1.54"/><rect y="7.69" width="30" height="1.54"/><rect y="10.77" width="30" height="1.54"/><rect y="13.85" width="30" height="1.54"/><rect y="16.92" width="30" height="1.54"/></g><rect width="12" height="10.77" fill="#3C3B6E"/><g fill="#fff"><circle cx="2" cy="1.8" r=".55"/><circle cx="6" cy="1.8" r=".55"/><circle cx="10" cy="1.8" r=".55"/><circle cx="4" cy="4" r=".55"/><circle cx="8" cy="4" r=".55"/><circle cx="2" cy="6.2" r=".55"/><circle cx="6" cy="6.2" r=".55"/><circle cx="10" cy="6.2" r=".55"/><circle cx="4" cy="8.4" r=".55"/><circle cx="8" cy="8.4" r=".55"/></g></svg>EN</button>
     <button type="button" data-lang="es" aria-pressed="false" title="Español"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/></svg>ES</button>
   </nav>
-  <img src="assets/tatuador-anderson-minas-tattoo.webp" srcset="assets/tatuador-anderson-minas-tattoo-540.webp 540w, assets/tatuador-anderson-minas-tattoo.webp 720w" sizes="(min-width: 900px) 56vw, 100vw" width="720" height="1080" alt="Anderson, tatuador do Minas Tattoo especialista em tatuagem realista, de camiseta preta e luvas segurando a máquina de tatuagem, com quadro de leão ao fundo" data-ta="alt:heroAlt" fetchpriority="high" decoding="async">
+  <img src="assets/tatuador-anderson-minas-tattoo-banner.webp" srcset="assets/tatuador-anderson-minas-tattoo-banner-420.webp 420w, assets/tatuador-anderson-minas-tattoo-banner.webp 560w" sizes="(min-width: 900px) 56vw, 100vw" width="560" height="700" alt="Anderson, tatuador do Minas Tattoo especialista em tatuagem realista, de camiseta preta e luvas segurando a máquina de tatuagem, com quadro de leão ao fundo" data-ta="alt:heroAlt" fetchpriority="high" decoding="async">
   <div class="wrap hero-inner">
     <div class="hero-copy">
       <h1 data-t="h1"><span class="h1-name">Anderson Minas</span> Tattoo<span class="h1-city">Tatuagem realista</span></h1>
@@ -412,7 +393,6 @@ footer .small-muted { font-size: .68rem; }
         <p data-t="sobre2">Ao entrar no mundo da tatuagem, o realismo continuou presente. Há mais de 6 anos venho eternizando momentos, histórias e emoções na pele dos meus clientes, com tatuagens detalhadas e com a mais alta qualidade!</p>
         <p data-t="sobre3">Agora que contei um pouco da minha história, quero conhecer a sua! Clique no botão abaixo para conversarmos sobre suas ideias de tattoo!</p>
         <div class="about-acoes">
-          <a class="btn btn-wa" id="wa-btn-sobre" href="https://wa.me/5535997109309" target="_blank" rel="noopener noreferrer"><svg class="icon icon-wa"><use href="#i-wa"/></svg><span data-t="waSobre">Conversar no WhatsApp</span></a>
           <a class="link-accent" href="https://www.instagram.com/minastattoo_/" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-ig"/></svg>@minastattoo_</a>
         </div>
       </div>
@@ -704,7 +684,7 @@ renderMarquee();
 })();
 
 /* Botões do WhatsApp com a mensagem inicial */
-const linkWhatsApp = () => { const u = `${site.whatsappBase}?text=${encodeURIComponent(site.mensagemWhatsApp)}`; $("wa-btn").href = u; $("wa-btn-sobre").href = u; };
+const linkWhatsApp = () => { $("wa-btn").href = `${site.whatsappBase}?text=${encodeURIComponent(site.mensagemWhatsApp)}`; };
 linkWhatsApp();
 
 /* IDIOMAS: PT (original da página), EN e ES.
@@ -721,7 +701,6 @@ const I18N = {
       sobre1: "Nice to meet you, I'm Anderson, better known as Minas. I've been fascinated by realism on paper since I was a child. When I drew, even without realizing it, my doodles and sketches always leaned toward portraying reality, especially faces and landscapes.",
       sobre2: "When I entered the world of tattooing, realism stayed with me. For more than 6 years I've been immortalizing moments, stories and emotions on my clients' skin, with detailed tattoos of the highest quality!",
       sobre3: "Now that I've told you a little of my story, I want to hear yours! Click the button below so we can talk about your tattoo ideas!",
-      waSobre: "Chat on WhatsApp",
       avTitulo: "Google reviews",
       avLead: "See what clients say after getting tattooed by Minas.",
       avNota: "5.0",
@@ -802,7 +781,6 @@ const I18N = {
       sobre1: "Mucho gusto, soy Anderson, más conocido como Minas. Desde niño me fascina el realismo en el papel. Al dibujar, incluso sin darme cuenta, mis garabatos y bocetos siempre tendían a representar la realidad, sobre todo rostros y paisajes.",
       sobre2: "Al entrar en el mundo del tatuaje, el realismo siguió presente. Desde hace más de 6 años eternizo momentos, historias y emociones en la piel de mis clientes, ¡con tatuajes detallados y de la más alta calidad!",
       sobre3: "Ahora que te conté un poco de mi historia, ¡quiero conocer la tuya! ¡Haz clic en el botón de abajo para conversar sobre tus ideas de tatuaje!",
-      waSobre: "Hablar por WhatsApp",
       avTitulo: "Reseñas de Google",
       avLead: "Mira lo que cuentan los clientes después de tatuarse con Minas.",
       avNota: "5,0",
