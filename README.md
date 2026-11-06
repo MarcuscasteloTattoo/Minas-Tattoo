@@ -28,7 +28,7 @@ No fim do `index.html`, dentro do `<script>`, o objeto `site` guarda o conteúdo
 
 - `estilos`: os cards do carrossel "Projetos recentes" (título, texto, foto e descrição da foto).
 - `portfolio`: as fotos do portfólio, na ordem em que aparecem. Todas aparecem de uma vez. Para mostrar só as primeiras e esconder o resto no botão "Ver portfólio completo", troque `PF_VISIVEIS` no `<script>` por um número (ex.: 12). Para acrescentar, coloque a foto em `assets/` e adicione `{ src: "assets/nome.webp", alt: "descrição" }`.
-- `avaliacoes`: avaliações do Google (nome, tempo, texto). Está vazia, então a seção mostra só a nota (5,0, 41 avaliações) e o link para o Google. Ao preencher, os cartões aparecem em carrossel; as que têm `foto` aparecem primeiro e abrem ampliadas ao toque. A nota e o total ficam no HTML e nas traduções (`avNota`, `avTotal`).
+- `avaliacoes`: avaliações do Google (nome, tempo, avatar, texto), mostradas em carrossel abaixo da nota (5,0, 41 avaliações). O `avatar` é a foto do cliente (quadrada, em `assets/`); sem ela aparecem as iniciais do nome. Cada avaliação precisa da tradução em `I18N.en.avaliacoes` e `I18N.es.avaliacoes`. Sem nenhuma avaliação, a seção mostra só a nota e o link para o Google; as que têm `foto` aparecem primeiro e abrem ampliadas ao toque. A nota e o total ficam no HTML e nas traduções (`avNota`, `avTotal`).
 - `whatsappBase` e `mensagemWhatsApp`: número e mensagem inicial dos botões do WhatsApp ("Quem sou" e orçamento).
 
 Ficam direto no HTML: textos do banner, do "Quem sou" e do valor médio e o link do Instagram.

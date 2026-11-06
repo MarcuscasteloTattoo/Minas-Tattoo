@@ -206,6 +206,7 @@ button { font: inherit; }
 @media (min-width: 640px) { .review { width: calc(50% - .5rem); } }
 @media (min-width: 1024px) { .review { width: calc(33.333% - .667rem); } }
 .review-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .75rem; }
+.avatar-img { display: block; object-fit: cover; background: var(--secondary); }
 .avatar { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 999px; background: var(--primary); color: var(--gold); font-size: .875rem; font-weight: 600; }
 .review h3 { font-family: var(--font-body); font-size: 1rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .review time { display: block; margin-top: .2rem; font-size: .75rem; color: var(--muted-fg); }
@@ -503,10 +504,14 @@ const site = {
     { src: "assets/tatuagem-espartano-escudo-espada-braco-minas-tattoo.webp", alt: "Tatuagem de guerreiro espartano com escudo e espada no braço feita por Anderson, do Minas Tattoo" },
     { src: "assets/tatuagem-caveira-samurai-katana-braco-minas-tattoo.webp", alt: "Tatuagem de caveira samurai com elmo e katana no braço feita por Anderson, do Minas Tattoo" },
   ],
-  /* Avaliações do Google do Minas: { nome: "", tempo: "", texto: "" }, da mais recente para a mais antiga.
-     Para mostrar a foto da avaliação, acrescente foto: "assets/nome.webp" e fotoAlt: "descrição".
-     Vazia: a seção mostra só a nota e o link para o Google. */
-  avaliacoes: [],
+  /* Avaliações do Google do Minas: { nome, tempo, avatar, texto }, da mais recente para a mais antiga.
+     avatar: foto do cliente (quadrada, ex.: 96x96) em assets/; sem avatar, aparecem as iniciais.
+     Para mostrar a foto da tatuagem na avaliação, acrescente foto: "assets/nome.webp" e fotoAlt: "descrição".
+     Ao acrescentar uma avaliação aqui, acrescente também a tradução em I18N.en.avaliacoes e I18N.es.avaliacoes. */
+  avaliacoes: [
+    { nome: "Gugui Carvalho Ramalho", tempo: "08/09/2025", avatar: "assets/avaliacao-gugui-carvalho-ramalho.webp", texto: "Atendimento super profissional, ambiente agradável e limpo, o Minas é um artista incrível e manda muito no realismo, minha melhor tatuagem e com certeza farei mais!" },
+    { nome: "Gustavo lima", tempo: "08/09/2025", avatar: "assets/avaliacao-gustavo-lima.webp", texto: "Tatuador com traços impecáveis. Já quiseram arrancar meu braço e levar pra ficarem admirando a obra prima que o Anderson Minas Tattoo fez nele" },
+  ],
 };
 
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -663,7 +668,8 @@ renderMarquee();
   const ordenadas = [...site.avaliacoes].sort((x, y) => (y.foto ? 1 : 0) - (x.foto ? 1 : 0));
   box.innerHTML = ordenadas.map((a) => {
     const ini = a.nome.split(" ").filter((p) => /^\p{L}/u.test(p)).slice(0, 2).map((p) => p[0].toUpperCase()).join("");
-    return `<article class="review" data-i="${site.avaliacoes.indexOf(a)}"><div class="review-head"><div class="avatar" aria-hidden="true">${ini}</div><div style="min-width:0"><h3>${esc(a.nome)}</h3><time>${a.tempo}</time></div><span class="g-badge" role="img" aria-label="Avaliação do Google">${g}</span></div><div class="stars" role="img" aria-label="5 de 5 estrelas">${stars}</div><p>${esc(a.texto).replace(/\n/g, "<br>")}</p>${a.foto ? `<button type="button" class="review-photo-btn" data-src="${esc(a.foto)}" data-alt="${esc(a.fotoAlt || "")}" aria-label="Ampliar foto: ${esc(a.fotoAlt || "tatuagem")}"><img class="review-photo" src="${esc(a.foto)}" srcset="${esc(a.foto.replace(/\.webp$/, "-480.webp"))} 480w, ${esc(a.foto)} 680w" sizes="(min-width: 1024px) 20rem, (min-width: 640px) calc(50vw - 5rem), calc(86vw - 5.5rem)" alt="${esc(a.fotoAlt || "")}" loading="lazy" decoding="async" draggable="false"></button>` : ""}</article>`;
+    const foto = a.avatar ? `<img class="avatar avatar-img" src="${esc(a.avatar)}" alt="" width="44" height="44" loading="lazy" decoding="async">` : `<div class="avatar" aria-hidden="true">${ini}</div>`;
+    return `<article class="review" data-i="${site.avaliacoes.indexOf(a)}"><div class="review-head">${foto}<div style="min-width:0"><h3>${esc(a.nome)}</h3><time>${a.tempo}</time></div><span class="g-badge" role="img" aria-label="Avaliação do Google">${g}</span></div><div class="stars" role="img" aria-label="5 de 5 estrelas">${stars}</div><p>${esc(a.texto).replace(/\n/g, "<br>")}</p>${a.foto ? `<button type="button" class="review-photo-btn" data-src="${esc(a.foto)}" data-alt="${esc(a.fotoAlt || "")}" aria-label="Ampliar foto: ${esc(a.fotoAlt || "tatuagem")}"><img class="review-photo" src="${esc(a.foto)}" srcset="${esc(a.foto.replace(/\.webp$/, "-480.webp"))} 480w, ${esc(a.foto)} 680w" sizes="(min-width: 1024px) 20rem, (min-width: 640px) calc(50vw - 5rem), calc(86vw - 5.5rem)" alt="${esc(a.fotoAlt || "")}" loading="lazy" decoding="async" draggable="false"></button>` : ""}</article>`;
   }).join("");
   box.addEventListener("click", (e) => { const b = e.target.closest(".review-photo-btn"); if (b) window.abrirFotoUnica(b.dataset.src, b.dataset.alt, b); });
   let paused = false;
@@ -760,7 +766,10 @@ const I18N = {
       "Spartan warrior with a shield and a sword arm tattoo by Anderson, Minas Tattoo",
       "Samurai skull with a helmet and a katana arm tattoo by Anderson, Minas Tattoo",
     ],
-    avaliacoes: [],
+    avaliacoes: [
+      { tempo: "Sep 8, 2025", texto: "Super professional service, a pleasant and clean space. Minas is an incredible artist and really nails realism. My best tattoo, and I'll definitely get more!" },
+      { tempo: "Sep 8, 2025", texto: "A tattoo artist with flawless lines. People have already wanted to rip my arm off and take it home to admire the masterpiece Anderson Minas Tattoo made on it" },
+    ],
   },
   es: {
     desc: "Anderson Minas Tattoo: tatuaje realista con gran riqueza de detalles, mangas y espaldas completas, retratos y proyectos 100% personalizados. Solicita tu presupuesto por WhatsApp.",
@@ -828,7 +837,10 @@ const I18N = {
       "Tatuaje de guerrero espartano con escudo y espada en el brazo, hecho por Anderson, de Minas Tattoo",
       "Tatuaje de calavera samurái con casco y katana en el brazo, hecho por Anderson, de Minas Tattoo",
     ],
-    avaliacoes: [],
+    avaliacoes: [
+      { tempo: "08/09/2025", texto: "Atención súper profesional, ambiente agradable y limpio. Minas es un artista increíble y domina el realismo. ¡Mi mejor tatuaje y seguro me haré más!" },
+      { tempo: "08/09/2025", texto: "Tatuador con trazos impecables. Ya me quisieron arrancar el brazo y llevárselo para quedarse admirando la obra maestra que Anderson Minas Tattoo hizo en él" },
+    ],
   },
 };
 
