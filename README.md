@@ -64,3 +64,7 @@ No `<head>` ficam o título da página, a descrição, as palavras-chave, os dad
 `_headers` (Netlify e Cloudflare Pages) e `vercel.json` (Vercel) mandam o navegador guardar as fotos em cache por 1 ano. Por isso, ao trocar uma foto, use um nome de arquivo novo em vez de substituir o arquivo com o mesmo nome. No GitHub Pages esses arquivos não têm efeito.
 
 O ícone do site usa os arquivos `favicon-minas.png` e `apple-touch-icon-minas.png`. Ao trocar o ícone, use um nome de arquivo novo e atualize as duas linhas `<link rel="icon">` e `<link rel="apple-touch-icon">` no `index.html`, porque o navegador guarda o ícone antigo por até uma semana.
+
+## Meta Pixel
+
+O Pixel da Meta (ID `7031540196967570`) está no `<head>` e registra `PageView` em todas as visitas. Quando a pessoa preenche o formulário de orçamento corretamente, o site dispara o evento de conversão `Lead` (com `content_name: "Formulário de orçamento"` e o prazo escolhido em `quando_tatuar`) e, meio segundo depois, leva para o WhatsApp. Nome, telefone e ideia de tatuagem não são enviados à Meta. Para testar, use o "Test Events" do Gerenciador de Eventos ou a extensão Meta Pixel Helper no site publicado.

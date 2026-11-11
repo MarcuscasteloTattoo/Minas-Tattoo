@@ -3,6 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '7031540196967570');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=7031540196967570&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <title>Minas Tattoo | Tatuagem Realista</title>
 <meta name="description" content="Anderson Minas Tattoo: tatuagem realista com riqueza de detalhes, fechamentos de braço e costas, retratos e projetos 100% personalizados. Peça seu orçamento pelo WhatsApp.">
 <meta name="keywords" content="Minas Tattoo, Anderson Minas Tattoo, tatuagem realista, tatuador realista, realismo preto e cinza, fechamento de braço, fechamento de costas, retrato realista, tatuagem religiosa">
@@ -808,8 +825,10 @@ const FORM_TXT = {
     if (!(navigator.sendBeacon && navigator.sendBeacon(site.webhookUrl, corpo)))
       fetch(site.webhookUrl, { method: "POST", body: corpo, mode: "no-cors", keepalive: true }).catch(() => {});
   }
+  let enviando = false;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (enviando) return;
     erro.hidden = true;
     const t = txt(), n = nome.value.trim().replace(/\s+/g, " "), d = digitos(tel.value), q = quando.value, ideia = $("f-ideia").value.trim();
     if (form.empresa.value) return; /* robôs preenchem o campo escondido */
@@ -826,9 +845,15 @@ const FORM_TXT = {
     /* no WhatsApp, texto entre asteriscos aparece em negrito */
     const msg = `${site.mensagemWhatsApp}\n\n*${t.nome}:* ${n}\n*${t.quando}:* ${qTexto}` + (ideia ? `\n*${t.ideia}:* ${ideia}` : "");
     const url = `${site.whatsappBase}?text=${encodeURIComponent(msg)}`;
-    /* leva direto para o WhatsApp (na mesma aba). Dentro de uma moldura (pré-visualização), abre em nova aba. */
-    if (window.top !== window.self) { if (!window.open(url, "_blank", "noopener")) location.href = url; }
-    else location.href = url;
+    /* Meta Pixel: evento de conversão (Lead) só quando o formulário passou na validação, logo antes de ir
+       para o WhatsApp. Não envia nome, telefone nem ideia; só o prazo escolhido. */
+    const temPixel = typeof window.fbq === "function";
+    if (temPixel) window.fbq("track", "Lead", { content_name: "Formulário de orçamento", quando_tatuar: q });
+    /* leva direto para o WhatsApp (na mesma aba), com uma pausa curta para o Pixel registrar a conversão.
+       Dentro de uma moldura (pré-visualização), abre em nova aba. */
+    if (window.top !== window.self) { if (!window.open(url, "_blank", "noopener")) location.href = url; return; }
+    enviando = true; $("wa-btn").setAttribute("aria-busy", "true");
+    setTimeout(() => { location.href = url; }, temPixel ? 500 : 0);
   });
 })();
 
